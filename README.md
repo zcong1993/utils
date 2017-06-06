@@ -22,6 +22,9 @@ GetJson make a get request use http.Get
 ### GetJsonWithHeaders
 GetJsonWithHeaders make a http get request with custom headers
 
+### Compile
+Compile is a html template compiler with custom tpl and data
+
 ## License
 
 MIT &copy; zcong1993

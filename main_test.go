@@ -1,24 +1,25 @@
 package utils
 
 import (
+	"bytes"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
-func TestGetJson(t *testing.T) {
+func TestGetJSON(t *testing.T) {
 	type Resp struct {
 		Status int    `decoder:"status"`
 		Msg    string `decoder:"msg"`
 	}
 	var res Resp
-	err := GetJson("http://zcong-hello.getsandbox.com/hello", &res)
+	err := GetJSON("http://zcong-hello.getsandbox.com/hello", &res)
 	assert.Nil(t, err)
 	assert.Equal(t, res, Resp{200, "hello world"})
-	err = GetJson("http://example.com", &res)
+	err = GetJSON("http://example.com", &res)
 	assert.NotNil(t, err)
 }
 
-func TestGetJsonWithHeaders(t *testing.T) {
+func TestGetJSONWithHeaders(t *testing.T) {
 	type Header struct {
 		Name  string `decoder:"name"`
 		Value string `decoder:"value"`
@@ -27,7 +28,7 @@ func TestGetJsonWithHeaders(t *testing.T) {
 		Headers []Header `decoder:"headers"`
 	}
 	var res Headers
-	err := GetJsonWithHeaders("http://zcong-hello.getsandbox.com/header", &res, map[string]string{"Content-Type": "application/json", "Foo": "bar"})
+	err := GetJSONWithHeaders("http://zcong-hello.getsandbox.com/header", &res, map[string]string{"Content-Type": "application/json", "Foo": "bar"})
 	assert.Nil(t, err)
 	headers := res.Headers
 	index1 := SliceIndex(len(headers), func(num int) bool {
@@ -51,4 +52,28 @@ func TestSliceIndex(t *testing.T) {
 	})
 	assert.Equal(t, index, 2)
 	assert.Equal(t, noExists, -1)
+}
+
+func TestPostJSON(t *testing.T) {
+	type User struct {
+		Username string `decoder:"username"`
+		Age      int    `decoder:"age"`
+	}
+	type Resp struct {
+		Status string `decoder:"status"`
+		User   User   `decoder:"user"`
+	}
+	var res Resp
+	err := PostJSON("http://zcong-hello.getsandbox.com/users", User{"zcong", 18}, &res, map[string]string{})
+	assert.Nil(t, err)
+	assert.Equal(t, res, Resp{"ok", User{"zcong", 18}})
+}
+
+func TestCompile(t *testing.T) {
+	tpl := "hello {{.data}}"
+	data := map[string]string{"data": "world"}
+	var res bytes.Buffer
+	err := Compile(&res, tpl, data)
+	assert.Nil(t, err)
+	assert.Equal(t, res.String(), "hello world")
 }
