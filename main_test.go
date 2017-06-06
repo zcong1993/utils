@@ -14,6 +14,8 @@ func TestGetJson(t *testing.T) {
 	err := GetJson("http://zcong-hello.getsandbox.com/hello", &res)
 	assert.Nil(t, err)
 	assert.Equal(t, res, Resp{200, "hello world"})
+	err = GetJson("http://example.com", &res)
+	assert.NotNil(t, err)
 }
 
 func TestGetJsonWithHeaders(t *testing.T) {
@@ -44,7 +46,7 @@ func TestSliceIndex(t *testing.T) {
 		return arr[i] == 3
 	}
 	index := SliceIndex(len(arr), condition)
-	noExists := SliceIndex(len(arr), func (i int) bool {
+	noExists := SliceIndex(len(arr), func(i int) bool {
 		return arr[i] == 10
 	})
 	assert.Equal(t, index, 2)
