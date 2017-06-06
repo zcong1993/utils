@@ -9,10 +9,11 @@ import (
 // GetJson make a get request use http.Get
 func GetJson(url string, v interface{}) error {
 	resp, err := http.Get(url)
-	defer resp.Body.Close()
-	if err == nil {
-		err = json.NewDecoder(resp.Body).Decode(v)
+	if err != nil {
+		return err
 	}
+	defer resp.Body.Close()
+	err = json.NewDecoder(resp.Body).Decode(v)
 	return err
 }
 
