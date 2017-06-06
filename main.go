@@ -21,14 +21,18 @@ func GetJson(url string, v interface{}) error {
 func GetJsonWithHeaders(url string, v interface{}, headers map[string]string) error {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", url, strings.NewReader(""))
+	if err != nil {
+		return err
+	}
 	for k, v := range headers {
 		req.Header.Set(k, v)
 	}
 	resp, err := client.Do(req)
-	defer resp.Body.Close()
-	if err == nil {
-		err = json.NewDecoder(resp.Body).Decode(v)
+	if err != nil {
+		return err
 	}
+	defer resp.Body.Close()
+	err = json.NewDecoder(resp.Body).Decode(v)
 	return err
 }
 
