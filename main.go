@@ -39,9 +39,9 @@ func GetJSONWithHeaders(url string, v interface{}, headers map[string]string) er
 	return err
 }
 
-// SliceIndex return the index of slice item which match the condition first
+// SliceIndex return the index of the first element in the array that satisfies the provided testing function.
 //
-// will return -1 when not match all
+// Otherwise -1 is returned
 func SliceIndex(limit int, condition func(num int) bool) int {
 	for i := 0; i < limit; i++ {
 		if condition(i) {
