@@ -3,6 +3,7 @@ package utils
 import (
 	"bytes"
 	"github.com/stretchr/testify/assert"
+	"reflect"
 	"testing"
 )
 
@@ -76,4 +77,12 @@ func TestCompile(t *testing.T) {
 	err := Compile(&res, tpl, data)
 	assert.Nil(t, err)
 	assert.Equal(t, res.String(), "hello world")
+}
+
+func TestStringAddress(t *testing.T) {
+	str := "zcong1993"
+	add := StringAddress(str)
+	var mock *string
+	assert.Equal(t, reflect.TypeOf(add), reflect.TypeOf(mock))
+	assert.Equal(t, *add, str)
 }

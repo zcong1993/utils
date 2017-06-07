@@ -50,6 +50,26 @@ err := utils.GetJSONWithHeaders("http://zcong-hello.getsandbox.com/header", &res
 ```
 ### Compile
 Compile is a html template compiler with custom tpl and data
+```go
+tpl := "hello {{.data}}"
+data := map[string]string{"data": "world"}
+var d bytes.Buffer
+err := utils.Compile(&d, tpl, &data)
+// check error
+if err != nil {
+    panic(err)
+}
+fmt.Printf("%s", d.String())
+// hello world
+```
+
+### StringAddress
+Get address of const string
+```go
+str := "zcong1993"
+add := StringAddress(str)
+// now add is &str without error
+```
 
 ## License
 

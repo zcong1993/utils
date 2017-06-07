@@ -84,3 +84,8 @@ func Compile(w io.Writer, tpl string, data interface{}) error {
 	}
 	return t.Execute(w, data)
 }
+
+// StringAddress is a helper function to get const string address
+func StringAddress(v string) *string {
+	return &v
+}
