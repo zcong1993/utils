@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"strings"
+	text "text/template"
 )
 
 // GetJSON make a get request use http.Get
@@ -78,6 +79,16 @@ func PostJSON(url string, body interface{}, v interface{}, headers map[string]st
 // Compile is a html template compiler with custom tpl and data
 func Compile(w io.Writer, tpl string, data interface{}) error {
 	t := template.New("compiler")
+	t, err := t.Parse(tpl)
+	if err != nil {
+		return err
+	}
+	return t.Execute(w, data)
+}
+
+// CompileText is same as Compile but use text/template
+func CompileText(w io.Writer, tpl string, data interface{}) error {
+	t := text.New("compiler-text")
 	t, err := t.Parse(tpl)
 	if err != nil {
 		return err

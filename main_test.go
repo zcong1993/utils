@@ -74,6 +74,15 @@ func TestCompile(t *testing.T) {
 	tpl := "hello {{.data}}"
 	data := map[string]string{"data": "world"}
 	var res bytes.Buffer
+	err := CompileText(&res, tpl, data)
+	assert.Nil(t, err)
+	assert.Equal(t, res.String(), "hello world")
+}
+
+func TestCompileText(t *testing.T) {
+	tpl := "hello {{.data}}"
+	data := map[string]string{"data": "world"}
+	var res bytes.Buffer
 	err := Compile(&res, tpl, data)
 	assert.Nil(t, err)
 	assert.Equal(t, res.String(), "hello world")

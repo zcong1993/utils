@@ -63,6 +63,20 @@ fmt.Printf("%s", d.String())
 // hello world
 ```
 
+### CompileText
+CompileText is same as Compile but use text/template
+```go
+tpl := "hello {{.data}}"
+data := map[string]string{"data": "world"}
+var d bytes.Buffer
+err := utils.CompileText(&d, tpl, &data)
+// check error
+if err != nil {
+    panic(err)
+}
+fmt.Printf("%s", d.String())
+// hello world
+
 ### StringAddress
 Get address of const string
 ```go
