@@ -47,7 +47,7 @@ func LogErrPad(err error) {
 	LogPad(colors.Red("ERROR") + space + colors.Purple(err.Error()))
 }
 
-// LogErrPad outputs success message with color and pad
+// LogSuccessPad outputs success message with color and pad
 func LogSuccessPad(msg string) {
 	LogPad(colors.Green("SUCCESS") + space + msg)
 }
